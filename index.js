@@ -24,10 +24,21 @@ async function run() {
         await client.connect();
         const database = client.db('best-bikes');
         const productsCollection = database.collection('products');
+        const ordersCollection = database.collection('orders');
 
-        
+        // GET Products API
+        app.get('/products', async (req, res) => {
+            const cursor = productsCollection.find({});
+            const products = await cursor.toArray();
+            res.send(products);
+        })
 
-
+        // POST Orders API
+        app.post('/orders', async (req, res) => {
+            const order = req.body;
+            const result = await ordersCollection.insertOne(order);
+            res.send(result);
+        })
 
 
 
