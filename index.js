@@ -25,6 +25,7 @@ async function run() {
         const database = client.db('best-bikes');
         const productsCollection = database.collection('products');
         const ordersCollection = database.collection('orders');
+        const usersCollection = database.collection('users');
 
         // GET Products API
         app.get('/products', async (req, res) => {
@@ -40,7 +41,7 @@ async function run() {
             res.send(result);
         })
 
-        // GET MyOrders API
+        // GET Orders API
         app.get('/orders', async (req, res) => {
             const userEmail = req.query.email;
             const query = userEmail ? {userEmail} : {};
@@ -49,7 +50,13 @@ async function run() {
             res.json(orders);
         })
 
-
+        // POST Users API
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            const result = await usersCollection.insertOne(user);
+            console.log(result);
+            res.json(result);
+        })
 
 
 
