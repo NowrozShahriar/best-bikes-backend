@@ -40,6 +40,15 @@ async function run() {
             res.send(result);
         })
 
+        // GET MyOrders API
+        app.get('/orders', async (req, res) => {
+            const userEmail = req.query.email;
+            const query = userEmail ? {userEmail} : {};
+            const cursor = ordersCollection.find(query);
+            const orders = await cursor.toArray();
+            res.json(orders);
+        })
+
 
 
 
