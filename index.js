@@ -68,6 +68,15 @@ async function run() {
             res.json(result);
         })
 
+        // PUT Orders API
+        app.put('/orders', async (req, res) => {
+            const id = req.body._id;
+            const filter = {_id:ObjectId(id)};
+            const updateDoc = {$set: {status: 'shipped'}}
+            const result = await ordersCollection.updateOne(filter, updateDoc);
+            res.json(result);
+        })
+
         // POST Users API
         app.post('/users', async (req, res) => {
             const user = req.body;
