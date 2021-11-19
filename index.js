@@ -20,12 +20,13 @@ async function run() {
         const productsCollection = database.collection('products');
         const ordersCollection = database.collection('orders');
         const usersCollection = database.collection('users');
+        const reviewsCollection = database.collection('reviews');
 
         // GET Products API
         app.get('/products', async (req, res) => {
             const cursor = productsCollection.find({});
             const products = await cursor.toArray();
-            res.send(products);
+            res.json(products);
         })
 
         // POST Products API
@@ -47,7 +48,7 @@ async function run() {
         app.post('/orders', async (req, res) => {
             const order = req.body;
             const result = await ordersCollection.insertOne(order);
-            res.send(result);
+            res.json(result);
         })
 
         // GET Orders API
@@ -92,10 +93,22 @@ async function run() {
             if (user?.role === 'admin') {
                 isAdmin = true;
             }
-            res.json({admin: isAdmin})
+            res.json({admin: isAdmin});
         })
 
+        // POST Reviews API
+        app.post('/reviews', async (req, res) => {
+            const review = req.body;
+            const result = await reviewsCollection.insertOne(review);
+            res.json(result);
+        })
 
+        // GET Reviews API
+        app.get('/reviews', async (req, res) => {
+            const cursor = reviewsCollection.find({});
+            const reviews = await cursor.toArray();
+            res.json(reviews);
+        })
 
 
 
